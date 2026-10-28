@@ -222,28 +222,16 @@ if needle not in s:
     raise SystemExit('Upstream settings PKGBUILD changed; package() not found')
 block='''package() {
   # Tom OS: stage Ly configuration and Calamares branding/frontend.
-  install -Dm644 "${srcdir}/tom-os/ly/config.ini" "$pkgdir/etc/ly/config.ini"
-  install -Dm644 "${srcdir}/tom-os/calamares/settings.conf" "$pkgdir/etc/calamares/settings.conf"
-  install -Dm644 "${srcdir}/tom-os/calamares/branding/tom-os/branding.desc" "$pkgdir/usr/share/calamares/branding/tom-os/branding.desc"
-  install -Dm644 "${srcdir}/tom-os/calamares/branding/tom-os/welcome.png" "$pkgdir/usr/share/calamares/branding/tom-os/welcome.png"
-  install -Dm644 "${srcdir}/tom-os/calamares/branding/tom-os/logo.png" "$pkgdir/usr/share/calamares/branding/tom-os/logo.png"
-  install -Dm644 "${srcdir}/tom-os/calamares/modules/tom-os-installer-handoff.conf" "$pkgdir/etc/calamares/modules/tom-os-installer-handoff.conf"
-  install -Dm755 "${srcdir}/tom-os/calamares/modules/tom-os-installer-handoff.sh" "$pkgdir/usr/lib/calamares/modules/tom-os-installer-handoff.sh"
+  install -Dm644 "${srcdir}/omarchy/tom-os/ly/config.ini" "$pkgdir/etc/ly/config.ini"
+  install -Dm644 "${srcdir}/omarchy/tom-os/calamares/settings.conf" "$pkgdir/etc/calamares/settings.conf"
+  install -Dm644 "${srcdir}/omarchy/tom-os/calamares/branding/tom-os/branding.desc" "$pkgdir/usr/share/calamares/branding/tom-os/branding.desc"
+  install -Dm644 "${srcdir}/omarchy/tom-os/calamares/branding/tom-os/welcome.png" "$pkgdir/usr/share/calamares/branding/tom-os/welcome.png"
+  install -Dm644 "${srcdir}/omarchy/tom-os/calamares/branding/tom-os/logo.png" "$pkgdir/usr/share/calamares/branding/tom-os/logo.png"
+  install -Dm644 "${srcdir}/omarchy/tom-os/calamares/modules/tom-os-installer-handoff.conf" "$pkgdir/etc/calamares/modules/tom-os-installer-handoff.conf"
+  install -Dm755 "${srcdir}/omarchy/tom-os/calamares/modules/tom-os-installer-handoff.sh" "$pkgdir/usr/lib/calamares/modules/tom-os-installer-handoff.sh"
 '''
-# PKGBUILD's source array is not used here: our local source is injected into
-# its build directory by a dedicated packaging hook below.
+# The package recipe copies OMARCHY_SRC into srcdir/omarchy in prepare().
 s=s.replace(needle,block,1)
-p.write_text(s)
-PY
-
-# The upstream settings package builds from a git checkout; its makepkg source
-# staging is managed by Omarchy. Store Tom OS files in the checkout and use a
-# source-relative path rather than assuming the makepkg srcdir structure.
-python3 - "$PKGBUILD" <<'PY'
-from pathlib import Path
-import sys
-p=Path(sys.argv[1])
-s=p.read_text().replace('${srcdir}/tom-os/', 'tom-os/')
 p.write_text(s)
 PY
 mkdir -p "$OMARCHY_SOURCE/tom-os"
