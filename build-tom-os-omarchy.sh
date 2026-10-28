@@ -222,6 +222,25 @@ for p in ly; do
     printf '%s\n' "$p" >> "$OMARCHY_SOURCE/install/omarchy-other.packages"
 done
 
+# Make Ly the default login manager in the installed system. Omarchy explicitly
+# enables SDDM in install/config/enable-services.sh; patch that exact upstream
+# line and fail closed if upstream has changed, rather than merely installing Ly.
+ENABLE_SERVICES="$OMARCHY_SOURCE/install/config/enable-services.sh"
+[[ -f "$ENABLE_SERVICES" ]] || fail "Expected service setup script not found: $ENABLE_SERVICES"
+python3 - "$ENABLE_SERVICES" <<'PY'
+from pathlib import Path
+import sys
+p=Path(sys.argv[1])
+s=p.read_text()
+old='systemctl enable sddm.service'
+new='systemctl disable sddm.service || true\nsystemctl enable ly.service'
+if new in s:
+    raise SystemExit(0)
+if s.count(old) != 1:
+    raise SystemExit('Could not safely locate the single SDDM enable line; upstream changed, stopping safely.')
+p.write_text(s.replace(old, new, 1))
+PY
+
 # Compact profile: remove selected large optional desktop/apps and hardware-specific
 # extras from the target image. Core Hyprland/Omarchy shell, networking, audio,
 # fonts, and installer remain. This is opt-in by default for Tom OS builds.
@@ -309,11 +328,9 @@ mkdir -p "$OMARCHY_SOURCE/tom-os/calamares/branding/tom-os"
 cp "$WALLPAPER" "$OMARCHY_SOURCE/tom-os/calamares/branding/tom-os/welcome.png"
 cp "$ICON" "$OMARCHY_SOURCE/tom-os/calamares/branding/tom-os/logo.png"
 
-# NOTE: Omarchy's packaging scripts may isolate the source checkout, so
-# confirm the package contains these files during the first test build.
-# Ly activation requires explicitly switching away from Omarchy's SDDM setup.
-# This is intentionally deferred until the installed-system integration is
-# validated to avoid leaving a fresh installation without a working login.
+# The service setup above selects Ly instead of SDDM. This remains an
+# experimental change until a VM build confirms the Ly session reaches Omarchy's
+# Hyprland desktop and first-boot provisioning completes correctly.
 
 info 'Building Tom OS from an Omarchy Linux host using the official Omarchy ISO builder'
 # --local-source is the upstream-supported path for building the ISO with locally
