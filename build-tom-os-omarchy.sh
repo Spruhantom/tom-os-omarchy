@@ -65,10 +65,10 @@ ensure_repo "$PKGS_SOURCE" 'https://github.com/omacom/omarchy-pkgs.git' 'master'
 
 git -C "$ISO_REPO" submodule update --init --recursive
 
-LOGO="$SCRIPT_DIR/assets/toms-technology-support-logo.png"
+LOGO="$SCRIPT_DIR/assets/tom-os-boot-logo.png"
 BOOT_LOGO="$SCRIPT_DIR/assets/tom-os-boot-logo.png"
 ICON="$SCRIPT_DIR/assets/tom-os-icon.png"
-WALLPAPER="$SCRIPT_DIR/assets/tom-os-wallpaper.png"
+WALLPAPER="$SCRIPT_DIR/assets/tom-os-wallpaper.jpg"
 for f in "$LOGO" "$BOOT_LOGO" "$ICON" "$WALLPAPER"; do [[ -f "$f" ]] || fail "Required asset missing: $f"; done
 
 info 'Applying Tom OS branding to the local Omarchy source'
@@ -103,8 +103,8 @@ bright_cyan = "#7af2fa"
 bright_blue = "#96bdff"
 bright_magenta = "#c7b1ff"
 COLORS
-cp "$WALLPAPER" "$OMARCHY_SOURCE/themes/tom-os/backgrounds/0-tom-os.png"
-cp "$WALLPAPER" "$OMARCHY_SOURCE/themes/tom-os/preview.png"
+cp "$WALLPAPER" "$OMARCHY_SOURCE/themes/tom-os/backgrounds/0-tom-os.jpg"
+cp "$WALLPAPER" "$OMARCHY_SOURCE/themes/tom-os/preview.jpg"
 
 # Make Tom OS the initial theme on fresh user provisioning. Omarchy's theme switcher
 # can still select any other theme later.
