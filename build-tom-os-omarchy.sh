@@ -222,6 +222,47 @@ for p in ly; do
     printf '%s\n' "$p" >> "$OMARCHY_SOURCE/install/omarchy-other.packages"
 done
 
+# Compact profile: remove selected large optional desktop/apps and hardware-specific
+# extras from the target image. Core Hyprland/Omarchy shell, networking, audio,
+# fonts, and installer remain. This is opt-in by default for Tom OS builds.
+if [[ "${TOM_OS_COMPACT_PACKAGES:-1}" == "1" ]]; then
+  info 'Removing optional large applications for the compact Tom OS profile'
+  python3 - "$OMARCHY_SOURCE/install/omarchy-base.packages" <<'PY'
+from pathlib import Path
+import sys
+p=Path(sys.argv[1])
+if not p.exists():
+    raise SystemExit(f"Expected package list not found: {p}")
+remove = {
+    "chromium", "docker", "docker-buildx", "docker-compose", "dotnet-runtime",
+    "libreoffice-fresh", "mariadb-libs", "moonlight-qt", "obsidian", "pinta",
+    "qemu-user-static-binfmt", "ruby", "superwhisper-bin", "tesseract",
+    "tesseract-data-eng", "gpu-screen-recorder", "yt-dlp", "lsp-plugins-lv2",
+    "vpl-gpu-rt", "intel-ipu7-camera", "intel-lpmd", "macbook12-spi-driver-dkms",
+    "nvidia-580xx-dkms", "nvidia-580xx-utils", "lib32-nvidia-580xx-utils",
+    "tuxedo-drivers-nocompatcheck-dkms", "asusctl", "asus-proart-p14-speaker-firmware",
+    "surface-pro-11-sensors", "surface-pro-11-support", "dell-xps-touchpad-haptics",
+    "dell-xps13-sidecar-amps", "linux-firmware-cirrus-dx13260",
+    "apple-t2-audio-config", "t2fanrd", "qmk-hid",
+}
+lines=p.read_text().splitlines()
+p.write_text("\n".join(line for line in lines if line.strip() not in remove) + "\n")
+PY
+  # Also drop selected optional multimedia/dev utilities from the supplemental list.
+  python3 - "$OMARCHY_SOURCE/install/omarchy-other.packages" <<'PY'
+from pathlib import Path
+import sys
+p=Path(sys.argv[1])
+remove={"broadcom-wl-dkms","dkms","intel-media-driver","libva-intel-driver",
+        "libva-nvidia-driver","nvidia-dkms","nvidia-open-dkms","nvidia-utils",
+        "lib32-nvidia-utils","pipewire-libcamera","sof-firmware","thermald",
+        "libvpl","vulkan-asahi","iptsd","linux-firmware-marvell",
+        "apple-bcm-firmware-fetcher","linux-t2","linux-t2-headers"}
+lines=p.read_text().splitlines()
+p.write_text("\n".join(line for line in lines if line.strip() not in remove) + "\n")
+PY
+fi
+
 LIVE_BUILDER="$ISO_REPO/builder/build-iso.sh"
 [[ -f "$LIVE_BUILDER" ]] || fail "Expected ISO builder not found: $LIVE_BUILDER"
 python3 - "$LIVE_BUILDER" <<'PY'
