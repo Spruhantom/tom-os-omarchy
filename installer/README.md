@@ -1,15 +1,18 @@
-# Tom OS login and installer branding
+# Tom OS Ly and Calamares integration (experimental)
 
-This directory contains the Tom OS Ly configuration and Calamares branding/frontend files.
+This directory contains Tom OS branding and configuration for **Ly** (TTY login manager) and **Calamares** (graphical installer frontend).
 
-## Ly
+## What the build script currently does
 
-The build script adds the `ly` package, installs `/etc/ly/config.ini`, and enables the Ly TTY service while disabling SDDM. Confirm the exact service unit names against the Ly package on the target Arch snapshot before using on physical hardware.
+- Adds `ly` to the Omarchy target package list.
+- Adds `calamares` to the live ISO package list.
+- Stages Ly and Calamares configuration, including the Tom OS purple/cyan artwork, into the local Omarchy settings package build.
+- Configures Calamares to invoke a handoff script for the existing Omarchy installer.
 
-## Calamares
+## Limitations
 
-Calamares is included as a branded frontend, but Omarchy's installer deploys a prebuilt Btrfs root image and configures Limine, encryption, user provisioning, and machine-specific setup. That is not the same installation model as a generic Calamares `unpackfs` configuration.
+**Ly is not automatically enabled yet.** Omarchy uses SDDM and its provisioning can re-enable it. The integration must be tested with the installed-system service setup before making Ly the default; otherwise a user could be left without a login screen.
 
-For that reason, the initial integration uses a transparent handoff to `omarchy-iso-installer` after the Calamares welcome/locale/keyboard/summary pages. Calamares does not itself perform partitioning or claim to install the OS. A true Calamares-native installer requires a separately implemented and VM-tested backend for the Omarchy image, Btrfs, encryption, bootloader and first-boot provisioning; do not enable destructive generic partition modules until that backend exists.
+**Calamares is not yet a fully native installer.** Omarchy deploys a prebuilt Btrfs root image and performs custom encryption, Limine and provisioning operations. The frontend currently delegates these operations to the existing Omarchy installer rather than using Calamares' partitioning modules. The handoff's compatibility with the live environment has not been validated.
 
-Test in a VM first. This project has not been end-to-end built or boot-tested.
+The ISO has **not** been built or boot-tested with these changes. Test in a VM, inspect the resulting settings package and verify the Calamares modules before considering physical installation. Never treat a Calamares summary screen as proof that a disk install succeeded.
