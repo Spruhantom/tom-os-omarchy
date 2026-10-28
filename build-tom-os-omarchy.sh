@@ -28,8 +28,8 @@ if ! command -v omarchy-version >/dev/null 2>&1 && [[ ! -d /usr/share/omarchy ]]
 fi
 [[ "$(uname -m)" == x86_64 ]] || fail 'This project is configured for Omarchy Linux x86_64 hosts and ISO output.'
 
-for cmd in git docker python3 jq sha256sum; do
-  command -v "$cmd" >/dev/null 2>&1 || fail "Missing dependency: $cmd. On Omarchy, install dependencies with: sudo pacman -S --needed git docker jq python"
+for cmd in git docker python3 jq sha256sum magick; do
+  command -v "$cmd" >/dev/null 2>&1 || fail "Missing dependency: $cmd. On Omarchy, install dependencies with: sudo pacman -S --needed git docker jq python imagemagick"
 done
 
 if ! docker info >/dev/null 2>&1 && ! sudo docker info >/dev/null 2>&1; then
@@ -65,11 +65,20 @@ ensure_repo "$PKGS_SOURCE" 'https://github.com/omacom/omarchy-pkgs.git' 'master'
 
 git -C "$ISO_REPO" submodule update --init --recursive
 
-LOGO="$SCRIPT_DIR/assets/tom-os-boot-logo.png"
-BOOT_LOGO="$SCRIPT_DIR/assets/tom-os-boot-logo.png"
-ICON="$SCRIPT_DIR/assets/tom-os-icon.png"
-WALLPAPER="$SCRIPT_DIR/assets/tom-os-wallpaper.jpg"
-for f in "$LOGO" "$BOOT_LOGO" "$ICON" "$WALLPAPER"; do [[ -f "$f" ]] || fail "Required asset missing: $f"; done
+LOGO="$SCRIPT_DIR/assets/toms-technology-support-logo.png"
+GENERATED_ASSETS="$WORK_DIR/generated-assets"
+BOOT_LOGO="$GENERATED_ASSETS/tom-os-boot-logo.png"
+ICON="$GENERATED_ASSETS/tom-os-icon.png"
+WALLPAPER="$GENERATED_ASSETS/tom-os-wallpaper.png"
+WALLPAPER_SOURCE="$SCRIPT_DIR/assets/tom-os-wallpaper.svg"
+[[ -f "$LOGO" ]] || fail "Required asset missing: $LOGO"
+[[ -f "$WALLPAPER_SOURCE" ]] || fail "Required asset missing: $WALLPAPER_SOURCE"
+mkdir -p "$GENERATED_ASSETS"
+info 'Generating Tom OS boot logo, application icon, and wallpaper'
+magick "$LOGO" -resize 320x320 "$BOOT_LOGO"
+magick "$LOGO" -resize 128x128 "$ICON"
+magick "$WALLPAPER_SOURCE" -resize 1280x720 "$GENERATED_ASSETS/tom-os-wallpaper-base.png"
+magick "$GENERATED_ASSETS/tom-os-wallpaper-base.png" \( "$LOGO" -resize 300x300 \) -gravity center -composite "$WALLPAPER"
 
 info 'Applying Tom OS branding to the local Omarchy source'
 # Clean any previous generated theme files before recreating them.
@@ -103,8 +112,8 @@ bright_cyan = "#7af2fa"
 bright_blue = "#96bdff"
 bright_magenta = "#c7b1ff"
 COLORS
-cp "$WALLPAPER" "$OMARCHY_SOURCE/themes/tom-os/backgrounds/0-tom-os.jpg"
-cp "$WALLPAPER" "$OMARCHY_SOURCE/themes/tom-os/preview.jpg"
+cp "$WALLPAPER" "$OMARCHY_SOURCE/themes/tom-os/backgrounds/0-tom-os.png"
+cp "$WALLPAPER" "$OMARCHY_SOURCE/themes/tom-os/preview.png"
 
 # Make Tom OS the initial theme on fresh user provisioning. Omarchy's theme switcher
 # can still select any other theme later.
