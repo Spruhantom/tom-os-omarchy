@@ -313,8 +313,13 @@ p=Path(sys.argv[1])
 s=p.read_text()
 needle='live_packages_file="$build_cache_dir/packages.$OMARCHY_ARCH"'
 if needle not in s:
-    raise SystemExit("Omarchy ISO package list anchor changed; cannot include Calamares safely")
-s=s.replace(needle, needle+'\n# Tom OS graphical installer frontend (x86_64 only)\nif [[ "$OMARCHY_ARCH" == "x86_64" ]]; then arch_packages+=(calamares); fi',1)
+    raise SystemExit("Omarchy ISO package list anchor changed; cannot configure optional Calamares safely")
+addition='''\n# Calamares is optional because it is not present in every Omarchy package mirror.
+# Enable only when the configured package source provides it: TOM_OS_INSTALL_CALAMARES=1.
+if [[ "${TOM_OS_INSTALL_CALAMARES:-0}" == "1" && "$OMARCHY_ARCH" == "x86_64" ]]; then
+  arch_packages+=(calamares)
+fi'''
+s=s.replace(needle, needle+addition, 1)
 p.write_text(s)
 PY
 
