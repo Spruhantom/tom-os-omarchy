@@ -9,10 +9,10 @@ Tom OS is a personal customisation project built on top of **Omarchy Linux**. It
 ## What is included
 
 - `build-tom-os-omarchy.sh` — build wrapper around the upstream Omarchy ISO builder.
-- `assets/toms-technology-support-logo.png` — original logo asset.
+- `The TTS logo is used in the boot branding asset.
 - `assets/tom-os-boot-logo.png` — boot/Plymouth logo asset.
 - `assets/tom-os-icon.png` — icon-sized Tom OS asset.
-- `assets/tom-os-wallpaper.png` — desktop wallpaper.
+- `assets/tom-os-wallpaper.jpg` — desktop wallpaper.
 
 The builder is intended to run on an **installed Omarchy Linux x86_64 host**, not Ubuntu, Fedora, or a generic Arch installation. It uses the upstream Omarchy ISO builder's `--local-source` workflow, which builds using the development/edge package channel.
 
