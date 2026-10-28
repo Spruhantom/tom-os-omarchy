@@ -1,0 +1,114 @@
+name: Build installation guide PDF
+
+on:
+  push:
+    paths:
+      - 'docs/tom-os-build-installation-guide.md'
+      - '.github/workflows/build-guide-pdf.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-pdf:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install PDF generator
+        run: python -m pip install reportlab
+      - name: Generate themed PDF
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from reportlab.lib import colors
+          from reportlab.lib.enums import TA_LEFT
+          from reportlab.lib.pagesizes import A4
+          from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+          from reportlab.lib.units import mm
+          from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Preformatted
+          from xml.sax.saxutils import escape
+
+          source = Path("docs/tom-os-build-installation-guide.md").read_text()
+          output = Path("docs/tom-os-build-installation-guide.pdf")
+          BG = colors.HexColor("#090812")
+          CYAN = colors.HexColor("#59E7F2")
+          PURPLE = colors.HexColor("#B69AFF")
+          WHITE = colors.HexColor("#F6F3FF")
+          MUTED = colors.HexColor("#C0B9DC")
+          PANEL = colors.HexColor("#15112B")
+          styles = getSampleStyleSheet()
+          styles.add(ParagraphStyle(name="Cover", parent=styles["Title"], fontName="Helvetica-Bold", fontSize=27, leading=32, textColor=WHITE, alignment=TA_LEFT, spaceAfter=8))
+          styles.add(ParagraphStyle(name="Sub", parent=styles["Normal"], fontSize=11, leading=15, textColor=CYAN, spaceAfter=12))
+          styles.add(ParagraphStyle(name="H1N", parent=styles["Heading1"], fontSize=17, leading=21, textColor=CYAN, spaceBefore=9, spaceAfter=7))
+          styles.add(ParagraphStyle(name="H2N", parent=styles["Heading2"], fontSize=11, leading=14, textColor=PURPLE, spaceBefore=7, spaceAfter=5))
+          styles.add(ParagraphStyle(name="BodyN", parent=styles["BodyText"], fontSize=8.8, leading=12.4, textColor=WHITE, spaceAfter=5))
+          styles.add(ParagraphStyle(name="CodeN", parent=styles["Code"], fontName="Courier", fontSize=7.5, leading=9.5, textColor=CYAN, backColor=PANEL, borderColor=PURPLE, borderWidth=.4, borderPadding=6, spaceBefore=3, spaceAfter=7))
+          styles.add(ParagraphStyle(name="NoteN", parent=styles["BodyText"], fontSize=8.5, leading=12, textColor=WHITE, backColor=PANEL, borderColor=PURPLE, borderWidth=.5, borderPadding=7, spaceBefore=4, spaceAfter=8))
+          def paint(canvas, doc):
+              canvas.saveState()
+              w,h=A4
+              canvas.setFillColor(BG); canvas.rect(0,0,w,h,fill=1,stroke=0)
+              canvas.setStrokeColor(colors.HexColor("#2D235D")); canvas.setLineWidth(1)
+              canvas.roundRect(10*mm,10*mm,w-20*mm,h-20*mm,4*mm,fill=0,stroke=1)
+              canvas.setStrokeColor(CYAN); canvas.line(17*mm,h-18*mm,w-17*mm,h-18*mm)
+              canvas.setFont("Helvetica",7); canvas.setFillColor(MUTED)
+              canvas.drawString(17*mm,13*mm,"TOM OS • OMARCHY-BASED BUILD")
+              canvas.drawRightString(w-17*mm,13*mm,f"PAGE {doc.page}")
+              canvas.restoreState()
+          story=[]
+          in_code=False; code_lines=[]; first=True
+          def flush_code():
+              global code_lines
+              if code_lines:
+                  story.append(Preformatted("\\n".join(code_lines), styles["CodeN"]))
+                  code_lines=[]
+          for line in source.splitlines():
+              if line.strip().startswith("```"):
+                  if in_code:
+                      flush_code(); in_code=False
+                  else:
+                      in_code=True; code_lines=[]
+                  continue
+              if in_code:
+                  code_lines.append(line); continue
+              if not line.strip():
+                  story.append(Spacer(1,2)); continue
+              if line.startswith("# "):
+                  story.append(Paragraph(escape(line[2:]), styles["Cover"] if first else styles["H1N"]))
+                  first=False
+              elif line.startswith("## "):
+                  story.append(Paragraph(escape(line[3:]), styles["H1N"]))
+              elif line.startswith("### "):
+                  story.append(Paragraph(escape(line[4:]), styles["H2N"]))
+              elif line.startswith("> "):
+                  story.append(Paragraph(escape(line[2:]), styles["NoteN"]))
+              elif line.startswith("- "):
+                  story.append(Paragraph("• " + escape(line[2:]), styles["BodyN"]))
+              else:
+                  text=line.replace("&","&amp;").replace("<","&lt;").replace(">","&gt;")
+                  import re
+                  text=re.sub(r"`([^`]+)`",r"<font name='Courier' color='#59E7F2'>\\1</font>",text)
+                  text=re.sub(r"\*\*(.+?)\*\*",r"<b>\\1</b>",text)
+                  story.append(Paragraph(text, styles["Sub"] if first else styles["BodyN"]))
+                  first=False
+          doc=SimpleDocTemplate(str(output), pagesize=A4, rightMargin=18*mm,leftMargin=18*mm,topMargin=23*mm,bottomMargin=22*mm,title="Tom OS Build & Installation Guide",author="Tom OS Project")
+          doc.build(story,onFirstPage=paint,onLaterPages=paint)
+          print(f"Created {output}")
+          PY
+      - name: Commit generated PDF
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/tom-os-build-installation-guide.pdf
+          if git diff --cached --quiet; then
+            echo "PDF is already up to date."
+          else
+            git commit -m "Publish Tom OS build and installation guide PDF"
+            git push
+          fi
