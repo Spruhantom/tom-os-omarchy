@@ -299,6 +299,44 @@ s=s.replace(needle, needle+'\n# Tom OS graphical installer frontend (x86_64 only
 p.write_text(s)
 PY
 
+# Generate a scalable neon purple/cyan icon theme for Tom OS.
+ICON_THEME="$OMARCHY_SOURCE/tom-os/icons/TomOS-Neon"
+mkdir -p "$ICON_THEME/scalable/apps" "$ICON_THEME/scalable/places" "$ICON_THEME/scalable/actions"
+python3 - "$ICON_THEME" <<'PY'
+from pathlib import Path
+import sys
+root=Path(sys.argv[1])
+icons={
+ "tom-os":("TTS","#b44cff","#23eaff"),"folder":("▱","#b44cff","#23eaff"),
+ "folder-home":("⌂","#b44cff","#23eaff"),"folder-documents":("▤","#b44cff","#23eaff"),
+ "folder-download":("↓","#b44cff","#23eaff"),"folder-music":("♫","#b44cff","#23eaff"),
+ "folder-pictures":("▧","#b44cff","#23eaff"),"folder-videos":("▶","#b44cff","#23eaff"),
+ "utilities-terminal":(">_","#23eaff","#b44cff"),"preferences-system":("⚙","#23eaff","#b44cff"),
+ "system-software-install":("✚","#23eaff","#b44cff"),"system-help":("?","#23eaff","#b44cff"),
+ "system-reboot":("↻","#23eaff","#b44cff"),"system-shutdown":("⏻","#23eaff","#b44cff"),
+ "network-wireless":("◔","#23eaff","#b44cff"),"network-bluetooth":("ᛒ","#23eaff","#b44cff"),
+ "battery":("▰","#23eaff","#b44cff"),"audio-volume-high":("◖","#23eaff","#b44cff"),
+ "weather-clear-night":("☾","#b44cff","#23eaff"),"firefox":("F","#ff42d0","#23eaff"),
+ "chromium":("◉","#23eaff","#b44cff"),"steam":("S","#23eaff","#b44cff"),
+ "discord":("◕","#b44cff","#23eaff"),"spotify":("≋","#23eaff","#b44cff"),
+ "code":("</>","#23eaff","#b44cff"),"obsidian":("◇","#b44cff","#23eaff"),
+ "gimp":("G","#b44cff","#23eaff"),"calamares":("↓","#23eaff","#b44cff"),
+ "system-file-manager":("▱","#b44cff","#23eaff"),"computer":("▱","#23eaff","#b44cff"),
+}
+for name,(glyph,c1,c2) in icons.items():
+    if name=="tom-os":
+        art='<circle cx="48" cy="48" r="39" fill="#100a32" stroke="%s" stroke-width="3"/><circle cx="48" cy="48" r="32" fill="none" stroke="%s" stroke-width="2"/><text x="48" y="56" font-size="21" font-style="italic" font-family="serif" text-anchor="middle" fill="#fff">TTS</text>'%(c1,c2)
+    elif name.startswith("folder"):
+        art='<path d="M12 27 Q12 22 18 22 H39 L46 30 H78 Q84 30 84 36 V73 Q84 79 78 79 H18 Q12 79 12 73Z" fill="#171044" stroke="%s" stroke-width="3"/><text x="48" y="64" font-size="30" font-family="DejaVu Sans" text-anchor="middle" fill="%s">%s</text>'%(c1,c2,glyph)
+    else:
+        size="20" if len(glyph)>3 else "36"
+        art='<rect x="8" y="8" width="80" height="80" rx="19" fill="#09091b" stroke="%s" stroke-width="3"/><rect x="14" y="14" width="68" height="68" rx="14" fill="none" stroke="%s" stroke-opacity=".65"/><text x="48" y="59" font-size="%s" font-family="DejaVu Sans" font-weight="bold" text-anchor="middle" fill="%s">%s</text>'%(c1,c2,size,c2,glyph)
+    svg='<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96"><rect width="96" height="96" rx="22" fill="#050612"/><circle cx="48" cy="48" r="43" fill="%s" opacity=".12"/>%s</svg>'%(c1,art)
+    cat="places" if name.startswith("folder") else "actions" if name.startswith("system-") else "apps"
+    (root/"scalable"/cat/(name+".svg")).write_text(svg)
+(root/"index.theme").write_text("[Icon Theme]\nName=Tom OS Neon\nComment=Neon purple and cyan icons\nInherits=hicolor\nDirectories=scalable/apps,scalable/places,scalable/actions\n\n[scalable/apps]\nSize=96\nType=Scalable\nMinSize=16\nMaxSize=512\nContext=Applications\n\n[scalable/places]\nSize=96\nType=Scalable\nMinSize=16\nMaxSize=512\nContext=Places\n\n[scalable/actions]\nSize=96\nType=Scalable\nMinSize=16\nMaxSize=512\nContext=Actions\n")
+PY
+
 # Omarchy's settings package is already installed in the live ISO and target.
 # Bundle our configuration with that package to avoid brittle post-ISO remastering.
 PKGBUILD="$SETTINGS_PKG/PKGBUILD"
@@ -320,6 +358,8 @@ block='''  # Tom OS branding files are staged in the local Omarchy source checko
   install -Dm644 "${srcdir}/omarchy/tom-os/calamares/modules/tom-os-installer-handoff.conf" "$pkgdir/etc/calamares/modules/shellprocess.conf"
   install -Dm755 "${srcdir}/omarchy/tom-os/calamares/modules/tom-os-installer-handoff.sh" "$pkgdir/usr/lib/calamares/modules/tom-os-installer-handoff.sh"
   install -Dm644 "${srcdir}/omarchy/tom-os/calamares/tom-os-installer.desktop" "$pkgdir/usr/share/applications/tom-os-installer.desktop"
+  install -d "$pkgdir/usr/share/icons/TomOS-Neon"
+  cp -a "${srcdir}/omarchy/tom-os/icons/TomOS-Neon/." "$pkgdir/usr/share/icons/TomOS-Neon/"
 '''
 if block.strip() not in s:
     s=s.replace(needle, needle+'\\n'+block, 1)
