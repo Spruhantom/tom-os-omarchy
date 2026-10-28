@@ -227,6 +227,23 @@ for p in ly; do
     printf '%s\n' "$p" >> "$OMARCHY_SOURCE/install/omarchy-other.packages"
 done
 
+# Ensure compressed RAM swap (zram) is present in every Tom OS build.
+# Omarchy provides the config, while zram-generator creates the zram device
+# automatically at boot when it sees /usr/lib/systemd/zram-generator.conf.d.
+OTHER_PACKAGES="$OMARCHY_SOURCE/install/omarchy-other.packages"
+grep -qxF 'zram-generator' "$OTHER_PACKAGES" || printf '%s\n' 'zram-generator' >> "$OTHER_PACKAGES"
+ZRAM_CONFIG="$OMARCHY_SOURCE/default/systemd/zram-generator.conf.d/90-omarchy.conf"
+if [[ ! -f "$ZRAM_CONFIG" ]]; then
+  mkdir -p "$(dirname "$ZRAM_CONFIG")"
+  cat > "$ZRAM_CONFIG" <<'ZRAM'
+# Tom OS compressed RAM swap. zram-generator creates zram0 during boot.
+[zram0]
+zram-size = ram
+compression-algorithm = zstd
+swap-priority = 100
+ZRAM
+fi
+
 # Make Ly the default login manager in the installed system. Omarchy explicitly
 # enables SDDM in install/config/enable-services.sh; patch that exact upstream
 # line and fail closed if upstream has changed, rather than merely installing Ly.
