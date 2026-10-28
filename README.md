@@ -61,3 +61,7 @@ The build script now generates an original scalable SVG icon theme named **Tom O
 The ISO build script checks out [Tomphone](https://github.com/Spruhantom/tomos), stages its Qt 6/QML source, compiles it while building the local `omarchy-settings-dev` package, and installs the `tomphone` executable, desktop launcher, and icon into the image. The package includes Qt 6, Baresip, and libpulse runtime dependencies. After installation, launch **Tomphone** from the application menu and enter your own SIP account details. Tomphone's SIP credentials are stored in the user's local config with owner-only permissions.
 
 This integration is experimental and hasn't been verified by a completed ISO build. It requires the upstream Tomphone source to remain compatible with the Qt toolchain and Baresip package in the selected Omarchy build channel.
+
+## Zram (compressed RAM swap)
+
+The build script now explicitly retains `zram-generator` and ensures Omarchy's zram configuration is present, using zstd compression and high-priority swap. The systemd zram generator creates the zram swap device at boot from that configuration. This is intended to be enabled by default; the resulting installed system still needs a VM boot check to confirm zram0 is active.
