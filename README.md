@@ -55,3 +55,9 @@ The build script generates a coordinated neon-purple/cyan brand set from the fil
 ## Tom OS Neon icon theme
 
 The build script now generates an original scalable SVG icon theme named **Tom OS Neon** with matching dark backgrounds and purple/cyan accents for system actions, folders, terminal, settings, software installer, network/status, and common applications. The theme is packaged at `/usr/share/icons/TomOS-Neon`. Because Omarchy/Hyprland components may set icon preferences independently, automatic selection across every application is not yet verified; select **Tom OS Neon** in your desktop/icon-theme settings where supported.
+
+## Tomphone softphone
+
+The ISO build script checks out [Tomphone](https://github.com/Spruhantom/tomos), stages its Qt 6/QML source, compiles it while building the local `omarchy-settings-dev` package, and installs the `tomphone` executable, desktop launcher, and icon into the image. The package includes Qt 6, Baresip, and libpulse runtime dependencies. After installation, launch **Tomphone** from the application menu and enter your own SIP account details. Tomphone's SIP credentials are stored in the user's local config with owner-only permissions.
+
+This integration is experimental and hasn't been verified by a completed ISO build. It requires the upstream Tomphone source to remain compatible with the Qt toolchain and Baresip package in the selected Omarchy build channel.
