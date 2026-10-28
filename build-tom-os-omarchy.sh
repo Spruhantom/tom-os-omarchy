@@ -75,10 +75,13 @@ WALLPAPER_SOURCE="$SCRIPT_DIR/assets/tom-os-wallpaper.svg"
 [[ -f "$WALLPAPER_SOURCE" ]] || fail "Required asset missing: $WALLPAPER_SOURCE"
 mkdir -p "$GENERATED_ASSETS"
 info 'Generating Tom OS boot logo, application icon, and wallpaper'
-magick "$LOGO" -resize 320x320 "$BOOT_LOGO"
-magick "$LOGO" -resize 128x128 "$ICON"
-magick "$WALLPAPER_SOURCE" -resize 1280x720 "$GENERATED_ASSETS/tom-os-wallpaper-base.png"
-magick "$GENERATED_ASSETS/tom-os-wallpaper-base.png" \( "$LOGO" -resize 300x300 \) -gravity center -composite "$WALLPAPER"
+# Generate consistent artwork from the Tom OS neon-purple/cyan brand.
+magick "$LOGO" -resize 320x320 -background '#08071a' -gravity center -extent 512x512 "$BOOT_LOGO"
+magick "$LOGO" -resize 128x128 -background '#100b32' -gravity center -extent 256x256 -bordercolor '#8b35ff' -border 5 "$ICON"
+magick "$WALLPAPER_SOURCE" -resize 1920x1080 "$GENERATED_ASSETS/tom-os-wallpaper-base.png"
+magick "$GENERATED_ASSETS/tom-os-wallpaper-base.png" \( "$LOGO" -resize 420x420 \) -gravity center -composite "$WALLPAPER"
+# Reuse the same generated artwork for Omarchy's desktop theme and Calamares welcome screen.
+magick "$WALLPAPER" -resize 1600x900 "$GENERATED_ASSETS/tom-os-installer-welcome.png"
 
 info 'Applying Tom OS branding to the local Omarchy source'
 # Clean any previous generated theme files before recreating them.
