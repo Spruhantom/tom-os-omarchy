@@ -362,7 +362,7 @@ block='''  # Tom OS branding files are staged in the local Omarchy source checko
   cp -a "${srcdir}/omarchy/tom-os/icons/TomOS-Neon/." "$pkgdir/usr/share/icons/TomOS-Neon/"
 '''
 if block.strip() not in s:
-    s=s.replace(needle, needle+'\\n'+block, 1)
+    s=s.replace(needle, needle+'\n'+block, 1)
 p.write_text(s)
 PY
 mkdir -p "$OMARCHY_SOURCE/tom-os"
