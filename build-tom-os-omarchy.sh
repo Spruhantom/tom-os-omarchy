@@ -165,8 +165,36 @@ TOM OS
 Powered by Omarchy
 TXT
 
-# Give the installer ISO Tom OS labels while retaining attribution that it is built on Omarchy.
+# Optional compact mode trades live-ISO boot speed for a smaller download.
+# Omarchy's default uses zstd level 19 for fast page-fault decompression. XZ
+# generally compresses more tightly, but may boot/decompress slower.
 PROFILE="$ISO_REPO/configs/profiledef.sh"
+if [[ "${TOM_OS_COMPACT_ISO:-1}" == "1" ]]; then
+  info 'Enabling compact ISO compression (XZ level 9; slower live boot possible)'
+  python3 - "$PROFILE" <<'PY'
+from pathlib import Path
+import sys
+p = Path(sys.argv[1])
+s = p.read_text()
+old = """airootfs_image_tool_options=(
+  '-comp' 'zstd'
+  '-Xcompression-level' '19'
+  '-b' '1M'
+  '-action' 'uncompressed@subpathname(var/cache/omarchy/mirror/offline)'
+)"""
+new = """airootfs_image_tool_options=(
+  '-comp' 'xz'
+  '-Xdict-size' '100%'
+  '-b' '1M'
+  '-action' 'uncompressed@subpathname(var/cache/omarchy/mirror/offline)'
+)"""
+if old not in s:
+    raise SystemExit('Could not locate expected SquashFS compression settings; upstream changed, stopping safely.')
+p.write_text(s.replace(old, new, 1))
+PY
+fi
+
+# Give the installer ISO Tom OS labels while retaining attribution that it is built on Omarchy.
 [[ -f "$PROFILE" ]] || fail "ISO profile file not found: $PROFILE"
 python3 - "$PROFILE" <<'PY'
 from pathlib import Path
