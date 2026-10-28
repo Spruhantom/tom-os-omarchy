@@ -317,6 +317,7 @@ block='''package() {
   install -Dm644 "${srcdir}/omarchy/tom-os/calamares/branding/tom-os/logo.png" "$pkgdir/usr/share/calamares/branding/tom-os/logo.png"
   install -Dm644 "${srcdir}/omarchy/tom-os/calamares/modules/tom-os-installer-handoff.conf" "$pkgdir/etc/calamares/modules/shellprocess.conf"
   install -Dm755 "${srcdir}/omarchy/tom-os/calamares/modules/tom-os-installer-handoff.sh" "$pkgdir/usr/lib/calamares/modules/tom-os-installer-handoff.sh"
+  install -Dm644 "${srcdir}/omarchy/tom-os/calamares/tom-os-installer.desktop" "$pkgdir/usr/share/applications/tom-os-installer.desktop"
 '''
 # The package recipe copies OMARCHY_SRC into srcdir/omarchy in prepare().
 s=s.replace(needle,block,1)
