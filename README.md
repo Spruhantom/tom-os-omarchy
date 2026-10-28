@@ -65,3 +65,7 @@ This integration is experimental and hasn't been verified by a completed ISO bui
 ## Zram (compressed RAM swap)
 
 The build script now explicitly retains `zram-generator` and ensures Omarchy's zram configuration is present, using zstd compression and high-priority swap. The systemd zram generator creates the zram swap device at boot from that configuration. This is intended to be enabled by default; the resulting installed system still needs a VM boot check to confirm zram0 is active.
+
+## Calamares package availability
+
+Calamares is no longer added to the live ISO package list unconditionally, because some configured Omarchy mirrors do not provide the `calamares` package and pacman then aborts the build. The build now skips it by default so the ISO can continue. If you have configured a compatible repository that provides Calamares, you can opt in with `TOM_OS_INSTALL_CALAMARES=1 ./build-tom-os-omarchy.sh`. The branded launcher/configuration is not a working installer unless the Calamares application is actually installed and its handoff is validated.
