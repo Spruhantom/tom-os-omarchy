@@ -1,0 +1,9 @@
+# Generated source checkouts and build workspace
+/work/
+/output/
+
+# Python/editor caches
+__pycache__/
+*.py[cod]
+.vscode/
+.idea/
