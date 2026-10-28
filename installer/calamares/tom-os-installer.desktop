@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Install Tom OS
+Comment=Install Tom OS using the Omarchy installer backend
+Exec=pkexec calamares -c /etc/calamares
+Icon=tom-os
+Terminal=false
+Categories=System;
+StartupNotify=true
