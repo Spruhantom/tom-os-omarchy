@@ -186,6 +186,78 @@ for old, new in repls.items():
 p.write_text(s)
 PY
 
+# Add Ly to the installed system package set and Calamares to the live ISO.
+# Package recipe changes below install the theme/config files in both environments.
+info 'Adding Ly and the Calamares frontend'
+for p in ly; do
+  grep -qxF "$p" "$OMARCHY_SOURCE/install/omarchy-other.packages" ||
+    printf '%s\n' "$p" >> "$OMARCHY_SOURCE/install/omarchy-other.packages"
+done
+
+LIVE_BUILDER="$ISO_REPO/builder/build-iso.sh"
+[[ -f "$LIVE_BUILDER" ]] || fail "Expected ISO builder not found: $LIVE_BUILDER"
+python3 - "$LIVE_BUILDER" <<'PY'
+from pathlib import Path
+import sys
+p=Path(sys.argv[1])
+s=p.read_text()
+needle='live_packages_file="$build_cache_dir/packages.$OMARCHY_ARCH"'
+if needle not in s:
+    raise SystemExit("Omarchy ISO package list anchor changed; cannot include Calamares safely")
+s=s.replace(needle, needle+'\n# Tom OS graphical installer frontend (x86_64 only)\nif [[ "$OMARCHY_ARCH" == "x86_64" ]]; then arch_packages+=(calamares); fi',1)
+p.write_text(s)
+PY
+
+# Omarchy's settings package is already installed in the live ISO and target.
+# Bundle our configuration with that package to avoid brittle post-ISO remastering.
+PKGBUILD="$SETTINGS_PKG/PKGBUILD"
+python3 - "$PKGBUILD" "$SCRIPT_DIR" <<'PY'
+from pathlib import Path
+import sys
+p=Path(sys.argv[1])
+source=Path(sys.argv[2])
+s=p.read_text()
+needle='package() {'
+if needle not in s:
+    raise SystemExit('Upstream settings PKGBUILD changed; package() not found')
+block='''package() {
+  # Tom OS: stage Ly configuration and Calamares branding/frontend.
+  install -Dm644 "${srcdir}/tom-os/ly/config.ini" "$pkgdir/etc/ly/config.ini"
+  install -Dm644 "${srcdir}/tom-os/calamares/settings.conf" "$pkgdir/etc/calamares/settings.conf"
+  install -Dm644 "${srcdir}/tom-os/calamares/branding/tom-os/branding.desc" "$pkgdir/usr/share/calamares/branding/tom-os/branding.desc"
+  install -Dm644 "${srcdir}/tom-os/calamares/branding/tom-os/welcome.png" "$pkgdir/usr/share/calamares/branding/tom-os/welcome.png"
+  install -Dm644 "${srcdir}/tom-os/calamares/branding/tom-os/logo.png" "$pkgdir/usr/share/calamares/branding/tom-os/logo.png"
+  install -Dm644 "${srcdir}/tom-os/calamares/modules/tom-os-installer-handoff.conf" "$pkgdir/etc/calamares/modules/tom-os-installer-handoff.conf"
+  install -Dm755 "${srcdir}/tom-os/calamares/modules/tom-os-installer-handoff.sh" "$pkgdir/usr/lib/calamares/modules/tom-os-installer-handoff.sh"
+'''
+# PKGBUILD's source array is not used here: our local source is injected into
+# its build directory by a dedicated packaging hook below.
+s=s.replace(needle,block,1)
+p.write_text(s)
+PY
+
+# The upstream settings package builds from a git checkout; its makepkg source
+# staging is managed by Omarchy. Store Tom OS files in the checkout and use a
+# source-relative path rather than assuming the makepkg srcdir structure.
+python3 - "$PKGBUILD" <<'PY'
+from pathlib import Path
+import sys
+p=Path(sys.argv[1])
+s=p.read_text().replace('${srcdir}/tom-os/', 'tom-os/')
+p.write_text(s)
+PY
+mkdir -p "$OMARCHY_SOURCE/tom-os"
+cp -a "$SCRIPT_DIR/installer/." "$OMARCHY_SOURCE/tom-os/"
+mkdir -p "$OMARCHY_SOURCE/tom-os/calamares/branding/tom-os"
+cp "$WALLPAPER" "$OMARCHY_SOURCE/tom-os/calamares/branding/tom-os/welcome.png"
+cp "$ICON" "$OMARCHY_SOURCE/tom-os/calamares/branding/tom-os/logo.png"
+
+# NOTE: Omarchy's packaging scripts may isolate the source checkout, so
+# confirm the package contains these files during the first test build.
+# Ly activation requires explicitly switching away from Omarchy's SDDM setup.
+# This is intentionally deferred until the installed-system integration is
+# validated to avoid leaving a fresh installation without a working login.
+
 info 'Building Tom OS from an Omarchy Linux host using the official Omarchy ISO builder'
 # --local-source is the upstream-supported path for building the ISO with locally
 # modified Omarchy and omarchy-pkgs checkouts. It selects the Omarchy edge/dev channel.
