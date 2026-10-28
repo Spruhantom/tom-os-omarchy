@@ -139,9 +139,11 @@ cp "$BOOT_LOGO" "$PLYMOUTH_LOGO"
 SETTINGS_PKG="$PKGS_SOURCE/pkgbuilds/omarchy-settings-dev"
 [[ -d "$SETTINGS_PKG" ]] || fail "Expected package recipe not found: $SETTINGS_PKG"
 [[ -f "$SETTINGS_PKG/PKGBUILD" ]] || fail "PKGBUILD missing from $SETTINGS_PKG"
-cp "$ICON" "$SETTINGS_PKG/icon.png"
-if [[ -f "$SETTINGS_PKG/logo.svg" ]]; then
-  python3 - "$LOGO" "$SETTINGS_PKG/logo.svg" <<'PY'
+# This PKGBUILD packages branding files from the OMARCHY_SRC checkout root,
+# so update those source files, not the package recipe directory.
+cp "$ICON" "$OMARCHY_SOURCE/icon.png"
+if [[ -f "$OMARCHY_SOURCE/logo.svg" ]]; then
+  python3 - "$LOGO" "$OMARCHY_SOURCE/logo.svg" <<'PY'
 from pathlib import Path
 import base64, sys
 raw = base64.b64encode(Path(sys.argv[1]).read_bytes()).decode('ascii')
@@ -150,7 +152,7 @@ svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="942" height="942" viewB
 Path(sys.argv[2]).write_text(svg)
 PY
 fi
-cat > "$SETTINGS_PKG/logo.txt" <<'TXT'
+cat > "$OMARCHY_SOURCE/logo.txt" <<'TXT'
  _____ ___  __  __   ____  ____
 |_   _/ _ \\|  \\/  | / ___||  _ \\
   | || | | | |\\/| || |  _ | |_) |
@@ -158,7 +160,7 @@ cat > "$SETTINGS_PKG/logo.txt" <<'TXT'
   |_| \\___/|_|  |_| \\____||_|
                POWERED BY OMARCHY
 TXT
-cat > "$SETTINGS_PKG/icon.txt" <<'TXT'
+cat > "$OMARCHY_SOURCE/icon.txt" <<'TXT'
 TOM OS
 Powered by Omarchy
 TXT
