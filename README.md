@@ -47,3 +47,7 @@ The build script now patches Omarchy's service setup to disable SDDM and enable 
 ## Testing status
 
 This is experimental. The ISO has not been built and boot-tested end-to-end. Test in a virtual machine before writing it to USB or installing it on physical hardware. Keep backups and do not assume a themed installer has successfully installed until the installed system boots.
+
+## Tom OS visual branding
+
+The build script generates a coordinated neon-purple/cyan brand set from the files in `assets/` and `installer/`: a 1920×1080 desktop wallpaper, application icon, Plymouth boot logo, Omarchy theme preview/background, and Calamares welcome/logo artwork. It also sets the Tom OS theme as the initial theme and packages the Ly and Calamares configuration. The branding is based on the visual concept in the project screenshots; the screenshot collage itself is a reference, not used as a desktop wallpaper. These changes are configuration/build-script changes and have not yet been validated by a completed ISO build.
