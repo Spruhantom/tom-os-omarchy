@@ -51,3 +51,7 @@ This is experimental. The ISO has not been built and boot-tested end-to-end. Tes
 ## Tom OS visual branding
 
 The build script generates a coordinated neon-purple/cyan brand set from the files in `assets/` and `installer/`: a 1920×1080 desktop wallpaper, application icon, Plymouth boot logo, Omarchy theme preview/background, and Calamares welcome/logo artwork. It also sets the Tom OS theme as the initial theme and packages the Ly and Calamares configuration. The branding is based on the visual concept in the project screenshots; the screenshot collage itself is a reference, not used as a desktop wallpaper. These changes are configuration/build-script changes and have not yet been validated by a completed ISO build.
+
+## Tom OS Neon icon theme
+
+The build script now generates an original scalable SVG icon theme named **Tom OS Neon** with matching dark backgrounds and purple/cyan accents for system actions, folders, terminal, settings, software installer, network/status, and common applications. The theme is packaged at `/usr/share/icons/TomOS-Neon`. Because Omarchy/Hyprland components may set icon preferences independently, automatic selection across every application is not yet verified; select **Tom OS Neon** in your desktop/icon-theme settings where supported.
