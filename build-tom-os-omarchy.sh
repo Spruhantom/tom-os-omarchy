@@ -10,6 +10,7 @@ OUTPUT_DIR="$SCRIPT_DIR/output"
 ISO_REPO="$WORK_DIR/omarchy-iso"
 OMARCHY_SOURCE="$WORK_DIR/omarchy"
 PKGS_SOURCE="$WORK_DIR/omarchy-pkgs"
+TOMPHONE_SOURCE="$WORK_DIR/tomphone"
 BRANCH="quattro"
 
 fail() { printf 'ERROR: %s\n' "$*" >&2; exit 1; }
@@ -62,6 +63,7 @@ ensure_repo "$ISO_REPO" 'https://github.com/omacom/omarchy-iso.git' "$BRANCH"
 ensure_repo "$OMARCHY_SOURCE" 'https://github.com/omacom/omarchy.git' "$BRANCH"
 # The package repository uses master; the ISO builder packages the locally modified source.
 ensure_repo "$PKGS_SOURCE" 'https://github.com/omacom/omarchy-pkgs.git' 'master'
+ensure_repo "$TOMPHONE_SOURCE" 'https://github.com/Spruhantom/tomos.git' 'main'
 
 git -C "$ISO_REPO" submodule update --init --recursive
 
@@ -365,11 +367,53 @@ if block.strip() not in s:
     s=s.replace(needle, needle+'\n'+block, 1)
 p.write_text(s)
 PY
+# Extend the Omarchy settings package to build and install Tomphone.
+python3 - "$PKGBUILD" <<'PY'
+from pathlib import Path
+import re, sys
+p=Path(sys.argv[1]); s=p.read_text()
+def add_to_array(text, name, additions):
+    pattern=rf"(?ms)^{name}=\(\n(.*?)^\)"
+    m=re.search(pattern,text)
+    if not m: raise SystemExit(f"Could not find {name} array in settings PKGBUILD")
+    body=m.group(1)
+    for item in additions:
+        if not re.search(rf"(?m)^\s*'{re.escape(item)}'\s*$",body):
+            body += f"  '{item}'\n"
+    return text[:m.start(1)]+body+text[m.end(1):]
+s=add_to_array(s,"depends",["qt6-base","qt6-declarative","baresip","libpulse"])
+s=add_to_array(s,"makedepends",["qt6-base","qt6-declarative","qt6-tools","make"])
+build_block='''build() {
+  cd "$srcdir/omarchy/tom-os/tomphone-app"
+  qmake6 tomphone.pro
+  make -j1
+}
+
+'''
+if 'cd "$srcdir/omarchy/tom-os/tomphone-app"' not in s:
+    marker="package() {"
+    if s.count(marker)!=1: raise SystemExit("Could not locate package() in settings PKGBUILD")
+    s=s.replace(marker,build_block+marker,1)
+pkg_marker='  # Tom OS branding files are staged in the local Omarchy source checkout.'
+tomphone_install='''  # Tomphone SIP softphone.
+  install -Dm755 "\${srcdir}/omarchy/tom-os/tomphone-app/tomphone" "$pkgdir/usr/bin/tomphone"
+  install -Dm644 "\${srcdir}/omarchy/tom-os/tomphone-app/tomphone.desktop" "$pkgdir/usr/share/applications/tomphone.desktop"
+  install -Dm644 "\${srcdir}/omarchy/tom-os/tomphone-app/tomphone.svg" "$pkgdir/usr/share/icons/hicolor/scalable/apps/tomphone.svg"
+'''
+if tomphone_install.strip() not in s:
+    if pkg_marker not in s: raise SystemExit("Tom OS branding insertion point missing from settings package()")
+    s=s.replace(pkg_marker,tomphone_install+pkg_marker,1)
+p.write_text(s)
+PY
 mkdir -p "$OMARCHY_SOURCE/tom-os"
 cp -a "$SCRIPT_DIR/installer/." "$OMARCHY_SOURCE/tom-os/"
 mkdir -p "$OMARCHY_SOURCE/tom-os/calamares/branding/tom-os"
 cp "$WALLPAPER" "$OMARCHY_SOURCE/tom-os/calamares/branding/tom-os/welcome.png"
 cp "$ICON" "$OMARCHY_SOURCE/tom-os/calamares/branding/tom-os/logo.png"
+# Stage Tomphone source and launcher assets into the custom package source.
+mkdir -p "$OMARCHY_SOURCE/tom-os/tomphone-app"
+cp -a "$TOMPHONE_SOURCE/src" "$TOMPHONE_SOURCE/tomphone.pro" "$OMARCHY_SOURCE/tom-os/tomphone-app/"
+cp "$TOMPHONE_SOURCE/pkgbuild/tomphone.desktop" "$TOMPHONE_SOURCE/pkgbuild/tomphone.svg" "$OMARCHY_SOURCE/tom-os/tomphone-app/"
 
 # The service setup above selects Ly instead of SDDM. This remains an
 # experimental change until a VM build confirms the Ly session reaches Omarchy's
