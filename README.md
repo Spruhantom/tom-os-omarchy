@@ -42,7 +42,7 @@ TOM_OS_COMPACT_PACKAGES=1 TOM_OS_COMPACT_ISO=1 ./build-tom-os-omarchy.sh
 
 ## Ly and Calamares status
 
-The repository contains Tom OS branding/configuration for Ly and a Calamares frontend experiment. Ly is not yet enabled as the default display manager, and Calamares is not a complete native installer backend; the current installer design hands off to Omarchy's own installer. See [installer/README.md](installer/README.md).
+The build script now patches Omarchy's service setup to disable SDDM and enable Ly, and configures Ly to start the Omarchy Wayland session. Calamares is included as an experimental graphical frontend that hands off to Omarchy's own installer; it is **not** a native Calamares partitioning/install backend. These changes have not yet been built or tested in a VM, so a working login or installation is not guaranteed. See [installer/README.md](installer/README.md).
 
 ## Testing status
 
