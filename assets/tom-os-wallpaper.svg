@@ -1,28 +1,255 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+<svg xmlns="http://www.w3.org/2000/svg" width="3840" height="2160" viewBox="0 0 3840 2160">
 <defs>
-  <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#05050d"/><stop offset=".48" stop-color="#15103a"/><stop offset="1" stop-color="#08091d"/></linearGradient>
-  <radialGradient id="glow"><stop stop-color="#9b4dff" stop-opacity=".8"/><stop offset="1" stop-color="#4221a8" stop-opacity="0"/></radialGradient>
-  <linearGradient id="lake" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#20105f"/><stop offset=".6" stop-color="#101b44"/><stop offset="1" stop-color="#050711"/></linearGradient>
-  <linearGradient id="line" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#44e8ff" stop-opacity="0"/><stop offset=".5" stop-color="#c16aff"/><stop offset="1" stop-color="#44e8ff" stop-opacity="0"/></linearGradient>
+ <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#02030b"/><stop offset=".48" stop-color="#100a35"/><stop offset="1" stop-color="#080b20"/></linearGradient>
+ <radialGradient id="nebula"><stop stop-color="#a000ff" stop-opacity=".75"/><stop offset=".45" stop-color="#4323ff" stop-opacity=".32"/><stop offset="1" stop-color="#07091c" stop-opacity="0"/></radialGradient>
+ <linearGradient id="moon" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#13dcff"/><stop offset=".48" stop-color="#5962ff"/><stop offset="1" stop-color="#ff20d5"/></linearGradient>
+ <linearGradient id="mountain" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#16194f"/><stop offset=".5" stop-color="#080d2d"/><stop offset="1" stop-color="#260d4d"/></linearGradient>
+ <linearGradient id="lake" x2="0" y2="1"><stop stop-color="#25105f"/><stop offset=".5" stop-color="#101d49"/><stop offset="1" stop-color="#030610"/></linearGradient>
+ <linearGradient id="type" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#20eaff"/><stop offset=".5" stop-color="#c6d5ff"/><stop offset="1" stop-color="#ff43e7"/></linearGradient>
+ <filter id="glow"><feGaussianBlur stdDeviation="35"/></filter>
 </defs>
-<rect width="1280" height="720" fill="url(#sky)"/>
-<circle cx="640" cy="265" r="300" fill="url(#glow)"/>
-<circle cx="640" cy="245" r="148" fill="#141039" stroke="#8b58ff" stroke-width="4"/>
-<circle cx="640" cy="245" r="162" fill="none" stroke="#43dcff" stroke-width="2" opacity=".85"/>
-<g fill="#ffffff" opacity=".7">
-<circle cx="105" cy="91" r="1.5"/><circle cx="210" cy="164" r="1"/><circle cx="300" cy="72" r="1.3"/><circle cx="400" cy="135" r="1"/><circle cx="900" cy="88" r="1.3"/><circle cx="1020" cy="165" r="1.2"/><circle cx="1153" cy="90" r="1.5"/><circle cx="1179" cy="235" r="1"/><circle cx="135" cy="266" r="1"/>
+<rect width="3840" height="2160" fill="url(#sky)"/>
+<ellipse cx="1920" cy="650" rx="1450" ry="850" fill="url(#nebula)"/>
+<g fill="#fff" opacity=".8">
+<circle cx="83" cy="47" r="2"/>
+<circle cx="400" cy="238" r="3"/>
+<circle cx="717" cy="429" r="4"/>
+<circle cx="1034" cy="620" r="5"/>
+<circle cx="1351" cy="811" r="2"/>
+<circle cx="1668" cy="1002" r="3"/>
+<circle cx="1985" cy="1193" r="4"/>
+<circle cx="2302" cy="1384" r="5"/>
+<circle cx="2619" cy="75" r="2"/>
+<circle cx="2936" cy="266" r="3"/>
+<circle cx="3253" cy="457" r="4"/>
+<circle cx="3570" cy="648" r="5"/>
+<circle cx="47" cy="839" r="2"/>
+<circle cx="364" cy="1030" r="3"/>
+<circle cx="681" cy="1221" r="4"/>
+<circle cx="998" cy="1412" r="5"/>
+<circle cx="1315" cy="103" r="2"/>
+<circle cx="1632" cy="294" r="3"/>
+<circle cx="1949" cy="485" r="4"/>
+<circle cx="2266" cy="676" r="5"/>
+<circle cx="2583" cy="867" r="2"/>
+<circle cx="2900" cy="1058" r="3"/>
+<circle cx="3217" cy="1249" r="4"/>
+<circle cx="3534" cy="1440" r="5"/>
+<circle cx="11" cy="131" r="2"/>
+<circle cx="328" cy="322" r="3"/>
+<circle cx="645" cy="513" r="4"/>
+<circle cx="962" cy="704" r="5"/>
+<circle cx="1279" cy="895" r="2"/>
+<circle cx="1596" cy="1086" r="3"/>
+<circle cx="1913" cy="1277" r="4"/>
+<circle cx="2230" cy="1468" r="5"/>
+<circle cx="2547" cy="159" r="2"/>
+<circle cx="2864" cy="350" r="3"/>
+<circle cx="3181" cy="541" r="4"/>
+<circle cx="3498" cy="732" r="5"/>
+<circle cx="3815" cy="923" r="2"/>
+<circle cx="292" cy="1114" r="3"/>
+<circle cx="609" cy="1305" r="4"/>
+<circle cx="926" cy="1496" r="5"/>
+<circle cx="1243" cy="187" r="2"/>
+<circle cx="1560" cy="378" r="3"/>
+<circle cx="1877" cy="569" r="4"/>
+<circle cx="2194" cy="760" r="5"/>
+<circle cx="2511" cy="951" r="2"/>
+<circle cx="2828" cy="1142" r="3"/>
+<circle cx="3145" cy="1333" r="4"/>
+<circle cx="3462" cy="24" r="5"/>
+<circle cx="3779" cy="215" r="2"/>
+<circle cx="256" cy="406" r="3"/>
+<circle cx="573" cy="597" r="4"/>
+<circle cx="890" cy="788" r="5"/>
+<circle cx="1207" cy="979" r="2"/>
+<circle cx="1524" cy="1170" r="3"/>
+<circle cx="1841" cy="1361" r="4"/>
+<circle cx="2158" cy="52" r="5"/>
+<circle cx="2475" cy="243" r="2"/>
+<circle cx="2792" cy="434" r="3"/>
+<circle cx="3109" cy="625" r="4"/>
+<circle cx="3426" cy="816" r="5"/>
+<circle cx="3743" cy="1007" r="2"/>
+<circle cx="220" cy="1198" r="3"/>
+<circle cx="537" cy="1389" r="4"/>
+<circle cx="854" cy="80" r="5"/>
+<circle cx="1171" cy="271" r="2"/>
+<circle cx="1488" cy="462" r="3"/>
+<circle cx="1805" cy="653" r="4"/>
+<circle cx="2122" cy="844" r="5"/>
+<circle cx="2439" cy="1035" r="2"/>
+<circle cx="2756" cy="1226" r="3"/>
+<circle cx="3073" cy="1417" r="4"/>
+<circle cx="3390" cy="108" r="5"/>
+<circle cx="3707" cy="299" r="2"/>
+<circle cx="184" cy="490" r="3"/>
+<circle cx="501" cy="681" r="4"/>
+<circle cx="818" cy="872" r="5"/>
+<circle cx="1135" cy="1063" r="2"/>
+<circle cx="1452" cy="1254" r="3"/>
+<circle cx="1769" cy="1445" r="4"/>
+<circle cx="2086" cy="136" r="5"/>
+<circle cx="2403" cy="327" r="2"/>
+<circle cx="2720" cy="518" r="3"/>
+<circle cx="3037" cy="709" r="4"/>
+<circle cx="3354" cy="900" r="5"/>
+<circle cx="3671" cy="1091" r="2"/>
+<circle cx="148" cy="1282" r="3"/>
+<circle cx="465" cy="1473" r="4"/>
+<circle cx="782" cy="164" r="5"/>
+<circle cx="1099" cy="355" r="2"/>
+<circle cx="1416" cy="546" r="3"/>
+<circle cx="1733" cy="737" r="4"/>
+<circle cx="2050" cy="928" r="5"/>
+<circle cx="2367" cy="1119" r="2"/>
+<circle cx="2684" cy="1310" r="3"/>
+<circle cx="3001" cy="1" r="4"/>
+<circle cx="3318" cy="192" r="5"/>
+<circle cx="3635" cy="383" r="2"/>
+<circle cx="112" cy="574" r="3"/>
+<circle cx="429" cy="765" r="4"/>
+<circle cx="746" cy="956" r="5"/>
+<circle cx="1063" cy="1147" r="2"/>
+<circle cx="1380" cy="1338" r="3"/>
+<circle cx="1697" cy="29" r="4"/>
+<circle cx="2014" cy="220" r="5"/>
+<circle cx="2331" cy="411" r="2"/>
+<circle cx="2648" cy="602" r="3"/>
+<circle cx="2965" cy="793" r="4"/>
+<circle cx="3282" cy="984" r="5"/>
+<circle cx="3599" cy="1175" r="2"/>
+<circle cx="76" cy="1366" r="3"/>
+<circle cx="393" cy="57" r="4"/>
+<circle cx="710" cy="248" r="5"/>
+<circle cx="1027" cy="439" r="2"/>
+<circle cx="1344" cy="630" r="3"/>
+<circle cx="1661" cy="821" r="4"/>
+<circle cx="1978" cy="1012" r="5"/>
+<circle cx="2295" cy="1203" r="2"/>
+<circle cx="2612" cy="1394" r="3"/>
+<circle cx="2929" cy="85" r="4"/>
+<circle cx="3246" cy="276" r="5"/>
+<circle cx="3563" cy="467" r="2"/>
+<circle cx="40" cy="658" r="3"/>
+<circle cx="357" cy="849" r="4"/>
+<circle cx="674" cy="1040" r="5"/>
+<circle cx="991" cy="1231" r="2"/>
+<circle cx="1308" cy="1422" r="3"/>
+<circle cx="1625" cy="113" r="4"/>
+<circle cx="1942" cy="304" r="5"/>
+<circle cx="2259" cy="495" r="2"/>
+<circle cx="2576" cy="686" r="3"/>
 </g>
-<path d="M0 445 L135 337 L205 380 L350 268 L485 420 L572 341 L640 394 L746 285 L854 418 L962 326 L1069 388 L1159 309 L1280 425 L1280 720 L0 720Z" fill="#100e36"/>
-<path d="M0 482 L157 379 L255 450 L397 355 L510 466 L640 387 L772 465 L921 355 L1038 447 L1160 368 L1280 455 L1280 720 L0 720Z" fill="#080b22" stroke="#6e43dd" stroke-opacity=".55" stroke-width="2"/>
-<path d="M0 498 L1280 498 L1280 720 L0 720Z" fill="url(#lake)"/>
-<path d="M485 498 L795 498 L940 720 L340 720Z" fill="#6a28bd" opacity=".12"/>
-<g stroke="#6f4bfa" stroke-width="2" opacity=".55">
-<path d="M0 539 Q360 526 640 540 T1280 537" fill="none"/><path d="M0 578 Q400 560 640 579 T1280 574" fill="none"/><path d="M0 626 Q340 611 640 629 T1280 626" fill="none"/><path d="M0 671 Q400 657 640 670 T1280 671" fill="none"/>
+<circle cx="1920" cy="610" r="530" fill="url(#moon)" opacity=".18" filter="url(#glow)"/>
+<circle cx="1920" cy="610" r="490" fill="#08091f" stroke="url(#moon)" stroke-width="20"/>
+<circle cx="1920" cy="610" r="450" fill="none" stroke="#9b48ff" stroke-width="5" opacity=".85"/>
+<circle cx="1920" cy="610" r="390" fill="#161044" stroke="#34207a" stroke-width="4"/>
+<text x="1920" y="540" text-anchor="middle" font-family="DejaVu Sans,sans-serif" font-size="60" letter-spacing="13" fill="#c8a7ff">TOMS TECHNOLOGY SUPPORT</text>
+<text x="1920" y="750" text-anchor="middle" font-family="serif" font-style="italic" font-size="290" fill="#f5f1ff">TTS</text>
+<path d="M0 1250 L260 1020 430 1140 740 800 970 1100 1190 900 1440 1170 1670 850 1920 1130 2160 870 2390 1120 2670 790 2910 1110 3150 900 3410 1120 3630 950 3840 1180 V2160 H0Z" fill="url(#mountain)" stroke="#5825c9" stroke-width="8"/>
+<path d="M0 1390 L300 1190 530 1350 830 1050 1100 1380 1400 1130 1630 1390 1920 1160 2200 1370 2460 1090 2730 1350 3030 1110 3310 1370 3600 1160 3840 1350 V2160 H0Z" fill="#050a20" stroke="#1462c9" stroke-opacity=".65" stroke-width="8"/>
+<path d="M0 1450 H3840 V2160 H0Z" fill="url(#lake)"/>
+<g stroke="#7d35ff" stroke-width="6" opacity=".45">
+<path d="M0 1510 Q950 1480 1920 1510 T3840 1510" fill="none"/>
+<path d="M0 1558 Q950 1528 1920 1558 T3840 1558" fill="none"/>
+<path d="M0 1606 Q950 1576 1920 1606 T3840 1606" fill="none"/>
+<path d="M0 1654 Q950 1624 1920 1654 T3840 1654" fill="none"/>
+<path d="M0 1702 Q950 1672 1920 1702 T3840 1702" fill="none"/>
+<path d="M0 1750 Q950 1720 1920 1750 T3840 1750" fill="none"/>
+<path d="M0 1798 Q950 1768 1920 1798 T3840 1798" fill="none"/>
+<path d="M0 1846 Q950 1816 1920 1846 T3840 1846" fill="none"/>
+<path d="M0 1894 Q950 1864 1920 1894 T3840 1894" fill="none"/>
+<path d="M0 1942 Q950 1912 1920 1942 T3840 1942" fill="none"/>
+<path d="M0 1990 Q950 1960 1920 1990 T3840 1990" fill="none"/>
+<path d="M0 2038 Q950 2008 1920 2038 T3840 2038" fill="none"/>
+<path d="M0 2086 Q950 2056 1920 2086 T3840 2086" fill="none"/>
 </g>
-<path d="M0 700 L0 520 L45 580 L70 548 L105 617 L132 569 L156 630 L181 589 L211 647 L242 606 L274 720Z" fill="#03050d"/>
-<path d="M1280 700 L1280 514 L1235 576 L1202 543 L1175 611 L1148 568 L1113 642 L1080 601 L1043 668 L1018 628 L988 720Z" fill="#03050d"/>
-<text x="640" y="555" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="78" font-weight="700" letter-spacing="15" fill="#7fe9ff" opacity=".95">TOM OS</text>
-<rect x="410" y="580" width="460" height="3" rx="1.5" fill="url(#line)"/>
-<text x="640" y="619" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="19" letter-spacing="6" fill="#e9e5ff">POWERED BY OMARCHY LINUX</text>
-<text x="640" y="686" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="12" letter-spacing="3" fill="#8f86c9" opacity=".75">TOMS TECHNOLOGY SUPPORT</text>
+<g fill="#02040d">
+<path d="M10 1500 l-50 99.00000000000001 h30 l-60 54 h42 l-45 90 h166 l-45 -90 h42 l-60 -54 h30Z"/>
+<path d="M50 1526 l-50 121.00000000000001 h30 l-60 66 h42 l-45 110 h166 l-45 -110 h42 l-60 -66 h30Z"/>
+<path d="M90 1552 l-50 143 h30 l-60 78 h42 l-45 130 h166 l-45 -130 h42 l-60 -78 h30Z"/>
+<path d="M130 1578 l-50 165 h30 l-60 90 h42 l-45 150 h166 l-45 -150 h42 l-60 -90 h30Z"/>
+<path d="M170 1604 l-50 187.00000000000003 h30 l-60 102 h42 l-45 170 h166 l-45 -170 h42 l-60 -102 h30Z"/>
+<path d="M210 1630 l-50 209.00000000000003 h30 l-60 114 h42 l-45 190 h166 l-45 -190 h42 l-60 -114 h30Z"/>
+<path d="M250 1656 l-50 99.00000000000001 h30 l-60 54 h42 l-45 90 h166 l-45 -90 h42 l-60 -54 h30Z"/>
+<path d="M290 1500 l-50 121.00000000000001 h30 l-60 66 h42 l-45 110 h166 l-45 -110 h42 l-60 -66 h30Z"/>
+<path d="M330 1526 l-50 143 h30 l-60 78 h42 l-45 130 h166 l-45 -130 h42 l-60 -78 h30Z"/>
+<path d="M370 1552 l-50 165 h30 l-60 90 h42 l-45 150 h166 l-45 -150 h42 l-60 -90 h30Z"/>
+<path d="M410 1578 l-50 187.00000000000003 h30 l-60 102 h42 l-45 170 h166 l-45 -170 h42 l-60 -102 h30Z"/>
+<path d="M450 1604 l-50 209.00000000000003 h30 l-60 114 h42 l-45 190 h166 l-45 -190 h42 l-60 -114 h30Z"/>
+<path d="M490 1630 l-50 99.00000000000001 h30 l-60 54 h42 l-45 90 h166 l-45 -90 h42 l-60 -54 h30Z"/>
+<path d="M530 1656 l-50 121.00000000000001 h30 l-60 66 h42 l-45 110 h166 l-45 -110 h42 l-60 -66 h30Z"/>
+<path d="M570 1500 l-50 143 h30 l-60 78 h42 l-45 130 h166 l-45 -130 h42 l-60 -78 h30Z"/>
+<path d="M610 1526 l-50 165 h30 l-60 90 h42 l-45 150 h166 l-45 -150 h42 l-60 -90 h30Z"/>
+<path d="M650 1552 l-50 187.00000000000003 h30 l-60 102 h42 l-45 170 h166 l-45 -170 h42 l-60 -102 h30Z"/>
+<path d="M690 1578 l-50 209.00000000000003 h30 l-60 114 h42 l-45 190 h166 l-45 -190 h42 l-60 -114 h30Z"/>
+<path d="M730 1604 l-50 99.00000000000001 h30 l-60 54 h42 l-45 90 h166 l-45 -90 h42 l-60 -54 h30Z"/>
+<path d="M770 1630 l-50 121.00000000000001 h30 l-60 66 h42 l-45 110 h166 l-45 -110 h42 l-60 -66 h30Z"/>
+<path d="M810 1656 l-50 143 h30 l-60 78 h42 l-45 130 h166 l-45 -130 h42 l-60 -78 h30Z"/>
+<path d="M850 1500 l-50 165 h30 l-60 90 h42 l-45 150 h166 l-45 -150 h42 l-60 -90 h30Z"/>
+<path d="M890 1526 l-50 187.00000000000003 h30 l-60 102 h42 l-45 170 h166 l-45 -170 h42 l-60 -102 h30Z"/>
+<path d="M930 1552 l-50 209.00000000000003 h30 l-60 114 h42 l-45 190 h166 l-45 -190 h42 l-60 -114 h30Z"/>
+<path d="M970 1578 l-50 99.00000000000001 h30 l-60 54 h42 l-45 90 h166 l-45 -90 h42 l-60 -54 h30Z"/>
+<path d="M1010 1604 l-50 121.00000000000001 h30 l-60 66 h42 l-45 110 h166 l-45 -110 h42 l-60 -66 h30Z"/>
+<path d="M1050 1630 l-50 143 h30 l-60 78 h42 l-45 130 h166 l-45 -130 h42 l-60 -78 h30Z"/>
+<path d="M1090 1656 l-50 165 h30 l-60 90 h42 l-45 150 h166 l-45 -150 h42 l-60 -90 h30Z"/>
+<path d="M1130 1500 l-50 187.00000000000003 h30 l-60 102 h42 l-45 170 h166 l-45 -170 h42 l-60 -102 h30Z"/>
+<path d="M1170 1526 l-50 209.00000000000003 h30 l-60 114 h42 l-45 190 h166 l-45 -190 h42 l-60 -114 h30Z"/>
+<path d="M1210 1552 l-50 99.00000000000001 h30 l-60 54 h42 l-45 90 h166 l-45 -90 h42 l-60 -54 h30Z"/>
+<path d="M1250 1578 l-50 121.00000000000001 h30 l-60 66 h42 l-45 110 h166 l-45 -110 h42 l-60 -66 h30Z"/>
+<path d="M1290 1604 l-50 143 h30 l-60 78 h42 l-45 130 h166 l-45 -130 h42 l-60 -78 h30Z"/>
+<path d="M1330 1630 l-50 165 h30 l-60 90 h42 l-45 150 h166 l-45 -150 h42 l-60 -90 h30Z"/>
+<path d="M1370 1656 l-50 187.00000000000003 h30 l-60 102 h42 l-45 170 h166 l-45 -170 h42 l-60 -102 h30Z"/>
+<path d="M1410 1500 l-50 209.00000000000003 h30 l-60 114 h42 l-45 190 h166 l-45 -190 h42 l-60 -114 h30Z"/>
+<path d="M1450 1526 l-50 99.00000000000001 h30 l-60 54 h42 l-45 90 h166 l-45 -90 h42 l-60 -54 h30Z"/>
+<path d="M1490 1552 l-50 121.00000000000001 h30 l-60 66 h42 l-45 110 h166 l-45 -110 h42 l-60 -66 h30Z"/>
+<path d="M1530 1578 l-50 143 h30 l-60 78 h42 l-45 130 h166 l-45 -130 h42 l-60 -78 h30Z"/>
+<path d="M1570 1604 l-50 165 h30 l-60 90 h42 l-45 150 h166 l-45 -150 h42 l-60 -90 h30Z"/>
+<path d="M3840 1500 l-50 99.00000000000001 h30 l-60 54 h42 l-45 90 h166 l-45 -90 h42 l-60 -54 h30Z"/>
+<path d="M3800 1526 l-50 121.00000000000001 h30 l-60 66 h42 l-45 110 h166 l-45 -110 h42 l-60 -66 h30Z"/>
+<path d="M3760 1552 l-50 143 h30 l-60 78 h42 l-45 130 h166 l-45 -130 h42 l-60 -78 h30Z"/>
+<path d="M3720 1578 l-50 165 h30 l-60 90 h42 l-45 150 h166 l-45 -150 h42 l-60 -90 h30Z"/>
+<path d="M3680 1604 l-50 187.00000000000003 h30 l-60 102 h42 l-45 170 h166 l-45 -170 h42 l-60 -102 h30Z"/>
+<path d="M3640 1630 l-50 209.00000000000003 h30 l-60 114 h42 l-45 190 h166 l-45 -190 h42 l-60 -114 h30Z"/>
+<path d="M3600 1656 l-50 99.00000000000001 h30 l-60 54 h42 l-45 90 h166 l-45 -90 h42 l-60 -54 h30Z"/>
+<path d="M3560 1500 l-50 121.00000000000001 h30 l-60 66 h42 l-45 110 h166 l-45 -110 h42 l-60 -66 h30Z"/>
+<path d="M3520 1526 l-50 143 h30 l-60 78 h42 l-45 130 h166 l-45 -130 h42 l-60 -78 h30Z"/>
+<path d="M3480 1552 l-50 165 h30 l-60 90 h42 l-45 150 h166 l-45 -150 h42 l-60 -90 h30Z"/>
+<path d="M3440 1578 l-50 187.00000000000003 h30 l-60 102 h42 l-45 170 h166 l-45 -170 h42 l-60 -102 h30Z"/>
+<path d="M3400 1604 l-50 209.00000000000003 h30 l-60 114 h42 l-45 190 h166 l-45 -190 h42 l-60 -114 h30Z"/>
+<path d="M3360 1630 l-50 99.00000000000001 h30 l-60 54 h42 l-45 90 h166 l-45 -90 h42 l-60 -54 h30Z"/>
+<path d="M3320 1656 l-50 121.00000000000001 h30 l-60 66 h42 l-45 110 h166 l-45 -110 h42 l-60 -66 h30Z"/>
+<path d="M3280 1500 l-50 143 h30 l-60 78 h42 l-45 130 h166 l-45 -130 h42 l-60 -78 h30Z"/>
+<path d="M3240 1526 l-50 165 h30 l-60 90 h42 l-45 150 h166 l-45 -150 h42 l-60 -90 h30Z"/>
+<path d="M3200 1552 l-50 187.00000000000003 h30 l-60 102 h42 l-45 170 h166 l-45 -170 h42 l-60 -102 h30Z"/>
+<path d="M3160 1578 l-50 209.00000000000003 h30 l-60 114 h42 l-45 190 h166 l-45 -190 h42 l-60 -114 h30Z"/>
+<path d="M3120 1604 l-50 99.00000000000001 h30 l-60 54 h42 l-45 90 h166 l-45 -90 h42 l-60 -54 h30Z"/>
+<path d="M3080 1630 l-50 121.00000000000001 h30 l-60 66 h42 l-45 110 h166 l-45 -110 h42 l-60 -66 h30Z"/>
+<path d="M3040 1656 l-50 143 h30 l-60 78 h42 l-45 130 h166 l-45 -130 h42 l-60 -78 h30Z"/>
+<path d="M3000 1500 l-50 165 h30 l-60 90 h42 l-45 150 h166 l-45 -150 h42 l-60 -90 h30Z"/>
+<path d="M2960 1526 l-50 187.00000000000003 h30 l-60 102 h42 l-45 170 h166 l-45 -170 h42 l-60 -102 h30Z"/>
+<path d="M2920 1552 l-50 209.00000000000003 h30 l-60 114 h42 l-45 190 h166 l-45 -190 h42 l-60 -114 h30Z"/>
+<path d="M2880 1578 l-50 99.00000000000001 h30 l-60 54 h42 l-45 90 h166 l-45 -90 h42 l-60 -54 h30Z"/>
+<path d="M2840 1604 l-50 121.00000000000001 h30 l-60 66 h42 l-45 110 h166 l-45 -110 h42 l-60 -66 h30Z"/>
+<path d="M2800 1630 l-50 143 h30 l-60 78 h42 l-45 130 h166 l-45 -130 h42 l-60 -78 h30Z"/>
+<path d="M2760 1656 l-50 165 h30 l-60 90 h42 l-45 150 h166 l-45 -150 h42 l-60 -90 h30Z"/>
+<path d="M2720 1500 l-50 187.00000000000003 h30 l-60 102 h42 l-45 170 h166 l-45 -170 h42 l-60 -102 h30Z"/>
+<path d="M2680 1526 l-50 209.00000000000003 h30 l-60 114 h42 l-45 190 h166 l-45 -190 h42 l-60 -114 h30Z"/>
+<path d="M2640 1552 l-50 99.00000000000001 h30 l-60 54 h42 l-45 90 h166 l-45 -90 h42 l-60 -54 h30Z"/>
+<path d="M2600 1578 l-50 121.00000000000001 h30 l-60 66 h42 l-45 110 h166 l-45 -110 h42 l-60 -66 h30Z"/>
+<path d="M2560 1604 l-50 143 h30 l-60 78 h42 l-45 130 h166 l-45 -130 h42 l-60 -78 h30Z"/>
+<path d="M2520 1630 l-50 165 h30 l-60 90 h42 l-45 150 h166 l-45 -150 h42 l-60 -90 h30Z"/>
+<path d="M2480 1656 l-50 187.00000000000003 h30 l-60 102 h42 l-45 170 h166 l-45 -170 h42 l-60 -102 h30Z"/>
+<path d="M2440 1500 l-50 209.00000000000003 h30 l-60 114 h42 l-45 190 h166 l-45 -190 h42 l-60 -114 h30Z"/>
+<path d="M2400 1526 l-50 99.00000000000001 h30 l-60 54 h42 l-45 90 h166 l-45 -90 h42 l-60 -54 h30Z"/>
+<path d="M2360 1552 l-50 121.00000000000001 h30 l-60 66 h42 l-45 110 h166 l-45 -110 h42 l-60 -66 h30Z"/>
+<path d="M2320 1578 l-50 143 h30 l-60 78 h42 l-45 130 h166 l-45 -130 h42 l-60 -78 h30Z"/>
+<path d="M2280 1604 l-50 165 h30 l-60 90 h42 l-45 150 h166 l-45 -150 h42 l-60 -90 h30Z"/>
+</g>
+<text x="1920" y="1645" text-anchor="middle" font-family="DejaVu Sans,sans-serif" font-size="245" font-weight="bold" letter-spacing="55" fill="url(#type)">TOM OS</text>
+<rect x="1200" y="1710" width="1440" height="9" rx="4" fill="url(#type)"/>
+<text x="1920" y="1810" text-anchor="middle" font-family="DejaVu Sans,sans-serif" font-size="58" letter-spacing="20" fill="#f1edff">POWERED BY OMARCHY LINUX</text>
+<text x="1920" y="2070" text-anchor="middle" font-family="DejaVu Sans,sans-serif" font-size="34" letter-spacing="12" fill="#9584db" opacity=".8">SIMPLE • POWERFUL • YOURS</text>
 </svg>
