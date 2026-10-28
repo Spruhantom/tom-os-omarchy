@@ -305,11 +305,10 @@ import sys
 p=Path(sys.argv[1])
 source=Path(sys.argv[2])
 s=p.read_text()
-needle='package() {'
+needle='  cd "$srcdir/omarchy"'
 if needle not in s:
-    raise SystemExit('Upstream settings PKGBUILD changed; package() not found')
-block='''package() {
-  # Tom OS: stage Ly configuration and Calamares branding/frontend.
+    raise SystemExit('Upstream settings PKGBUILD changed; expected cd into source checkout not found')
+block='''  # Tom OS branding files are staged in the local Omarchy source checkout.
   install -Dm644 "${srcdir}/omarchy/tom-os/ly/config.ini" "$pkgdir/etc/ly/config.ini"
   install -Dm644 "${srcdir}/omarchy/tom-os/calamares/settings.conf" "$pkgdir/etc/calamares/settings.conf"
   install -Dm644 "${srcdir}/omarchy/tom-os/calamares/branding/tom-os/branding.desc" "$pkgdir/usr/share/calamares/branding/tom-os/branding.desc"
@@ -319,8 +318,8 @@ block='''package() {
   install -Dm755 "${srcdir}/omarchy/tom-os/calamares/modules/tom-os-installer-handoff.sh" "$pkgdir/usr/lib/calamares/modules/tom-os-installer-handoff.sh"
   install -Dm644 "${srcdir}/omarchy/tom-os/calamares/tom-os-installer.desktop" "$pkgdir/usr/share/applications/tom-os-installer.desktop"
 '''
-# The package recipe copies OMARCHY_SRC into srcdir/omarchy in prepare().
-s=s.replace(needle,block,1)
+if block.strip() not in s:
+    s=s.replace(needle, needle+'\\n'+block, 1)
 p.write_text(s)
 PY
 mkdir -p "$OMARCHY_SOURCE/tom-os"
