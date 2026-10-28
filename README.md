@@ -9,7 +9,7 @@ Tom OS is a personal customisation project built on top of **Omarchy Linux**. It
 ## What is included
 
 - `build-tom-os-omarchy.sh` — build wrapper around the upstream Omarchy ISO builder.
-- `The TTS logo is used in the boot branding asset.
+- ``assets/toms-technology-support-logo.png` — TTS logo used to generate boot and app branding.
 - `assets/tom-os-boot-logo.png` — boot/Plymouth logo asset.
 - `assets/tom-os-icon.png` — icon-sized Tom OS asset.
 - `assets/tom-os-wallpaper.jpg` — desktop wallpaper.
@@ -20,7 +20,7 @@ The builder is intended to run on an **installed Omarchy Linux x86_64 host**, no
 
 - Installed Omarchy Linux on x86_64
 - Docker Engine running
-- Git, Docker, jq, Python, and sudo
+- Git, Docker, jq, Python, ImageMagick, and sudo
 - Internet connection
 - At least 35 GB free disk space recommended (more is useful)
 
@@ -28,7 +28,7 @@ Install prerequisites:
 
 ```bash
 sudo pacman -Syu
-sudo pacman -S --needed git docker jq python
+sudo pacman -S --needed git docker jq python imagemagick
 sudo systemctl enable --now docker
 ```
 
