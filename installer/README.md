@@ -6,7 +6,7 @@ This directory contains Tom OS branding and configuration for **Ly** (TTY login 
 
 - Adds `ly` to the Omarchy target package list.
 - Patches Omarchy's service setup to disable `sddm.service` and enable `ly.service`; Ly is configured to use the `omarchy` Wayland session.
-- Adds `calamares` to the live ISO package list.
+- Adds `calamares` to the live ISO package list and packages an **Install Tom OS** application-menu launcher.
 - Stages Ly and Calamares configuration, including the Tom OS purple/cyan artwork, into the local Omarchy settings package build.
 - Configures Calamares to invoke a handoff script for the existing Omarchy installer.
 
