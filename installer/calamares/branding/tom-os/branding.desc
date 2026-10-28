@@ -1,0 +1,26 @@
+componentName: Tom OS Installer
+welcomeStyleCalamares: true
+welcomeExpandingLogo: true
+windowExpanding: true
+windowSize: 980px,600px
+windowPlacement: center
+sidebar: true
+strings:
+  productName: Tom OS
+  shortProductName: Tom OS
+  version: Omarchy-based edition
+  shortVersion: Omarchy
+  bootloaderEntryName: Tom OS
+  productUrl: https://github.com/Spruhantom/tom-os-omarchy
+  supportUrl: https://github.com/Spruhantom/tom-os-omarchy/issues
+  knownIssuesUrl: https://github.com/Spruhantom/tom-os-omarchy/issues
+  releaseNotesUrl: https://github.com/Spruhantom/tom-os-omarchy
+style:
+  sidebarBackground: "#090812"
+  sidebarText: "#f6f3ff"
+  sidebarTextSelect: "#59e7f2"
+  sidebarTextHighlight: "#b69aff"
+  sidebarTextHighlightSelect: "#ffffff"
+  sidebarTextSelectHighlight: "#59e7f2"
+  sidebarTextSelectHighlightSelect: "#ffffff"
+  sidebarTextDisabled: "#514a7e"
